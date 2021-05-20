@@ -14,8 +14,8 @@ class TeamRepositoryTest(@Autowired val teamRepository: TeamRepository) {
 
     @Test
     fun databaseIsInitialized() {
-        val team = teamRepository.findAll()
-        assertTrue(true)
+        val team = teamRepository.findById(1)
+        assertTrue(team.isPresent)
     }
 
     @Test
@@ -31,10 +31,9 @@ class TeamRepositoryTest(@Autowired val teamRepository: TeamRepository) {
     }
 
     @Test
-    fun projectIsPresent() {
+    fun projectIsAProxy() {
         val team = teamRepository.getOne(1)
-        println("Team id: ${team.id}")
-        println(team.project?.javaClass)
         assertNotNull(team.project)
+        assertTrue(team.project!!.javaClass.name.contains("HibernateProxy"))
     }
 }
