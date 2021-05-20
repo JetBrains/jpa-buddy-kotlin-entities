@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaPluginProjectSettings">
+    <option name="tableNameTemplate" value="${className.underscore().toLowerCase()}" />
+    <option name="columnNameTemplate" value="${fieldName.underscore().toLowerCase()}" />
+    <option name="joinTableAnnotationNameTemplate" value="${className.underscore().toLowerCase()}_${invClassName.underscore().toLowerCase()}_link" />
+    <option name="joinColumnAnnotationNameTemplate" value="${invClassName.underscore().toLowerCase()}_id" />
+    <option name="lastSelectedLanguage" value="Kotlin" />
+  </component>
+</project>
