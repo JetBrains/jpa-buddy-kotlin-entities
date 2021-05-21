@@ -18,6 +18,25 @@ class ProjectRepositoryTest(@Autowired val projectRepository: ProjectRepository)
     }
 
     @Test
+    fun projectHashSetIsConsistent() {
+        val project = Project(name = "New project")
+        val hashSet = hashSetOf(project)
+        println(project.hashCode())
+
+        projectRepository.save(project)
+        println(project.hashCode())
+
+        assertTrue(project in hashSet)
+    }
+
+    @Test
+    fun toStringInsideTransaction() {
+        val project = projectRepository.findById(1).get()
+        println(project)
+    }
+
+
+    @Test
     fun projectIsSavedWithLateinit() {
         val project = projectRepository.save(Project().apply {
             name = "Andrew"
