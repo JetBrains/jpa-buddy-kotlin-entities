@@ -10,8 +10,8 @@ open class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     open var id: Long? = null
 
-    @Column(name = "name")
-    open var name: String? = null
+    @Column(name = "name", nullable = false)
+    open lateinit var name: String
 
     @OneToMany(mappedBy = "client", orphanRemoval = true)
     open var projects: MutableList<Project>? = mutableListOf()

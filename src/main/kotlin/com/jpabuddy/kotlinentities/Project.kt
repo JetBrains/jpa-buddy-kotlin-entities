@@ -10,8 +10,8 @@ open class Project {
     @Id
     open var id: Long? = null
 
-    @Column(name = "name")
-    open var name: String? = null
+    @Column(name = "name", nullable = false)
+    open lateinit var name: String
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "project")
     open var team: Team? = null

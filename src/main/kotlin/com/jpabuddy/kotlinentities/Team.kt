@@ -10,8 +10,8 @@ open class Team {
     @Id
     open var id: Long? = null
 
-    @Column(name = "name")
-    open var name: String? = null
+    @Column(name = "name", nullable = false)
+    open lateinit var name: String
 
     @JoinColumn(name = "project_id")
     @OneToOne(fetch = FetchType.LAZY)

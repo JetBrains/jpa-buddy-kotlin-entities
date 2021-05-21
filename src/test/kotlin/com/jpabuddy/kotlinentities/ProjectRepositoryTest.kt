@@ -1,5 +1,6 @@
 package com.jpabuddy.kotlinentities
 
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,5 +15,13 @@ class ProjectRepositoryTest(@Autowired val projectRepository: ProjectRepository)
     fun projectIsInitialized() {
         val project = projectRepository.findById(1)
         assertTrue(project.isPresent)
+    }
+
+    @Test
+    fun projectIsSavedWithLateinit() {
+        val project = projectRepository.save(Project().apply {
+            name = "Andrew"
+        })
+        assertNotNull(project.id)
     }
 }

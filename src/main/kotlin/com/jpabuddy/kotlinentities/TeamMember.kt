@@ -11,8 +11,8 @@ open class TeamMember {
     @Id
     open var id: Long? = null
 
-    @Column(name = "name")
-    open var name: String? = null
+    @Column(name = "name", nullable = false)
+    open lateinit var name: String
 
     @JoinTable(
         name = "team_member_team_link",
