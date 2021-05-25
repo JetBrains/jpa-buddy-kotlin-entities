@@ -1,51 +1,78 @@
 package com.jpabuddy.kotlinentities
 
+import org.hibernate.proxy.HibernateProxy
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.junit.platform.commons.logging.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import java.lang.Exception
+import java.util.*
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ProjectRepositoryTest(
     @Autowired val projectRepository: ProjectRepository,
-    @Autowired val clientRepository: ClientRepository,
 ) {
 
+    companion object{
+        private val LOGGER = LoggerFactory.getLogger(ProjectRepositoryTest::class.java)
+    }
+
     @Test
-    fun projectIsInitialized() {
+    internal fun projectIsInitialized() {
         val project = projectRepository.findById(1)
         assertTrue(project.isPresent)
     }
 
     @Test
-    internal fun clientIsAProxy() {
+    internal fun lazyLoadEnabled() {
         val project = projectRepository.findById(1).get()
-        val clientClassName = project.client?.javaClass?.name
-        println(clientClassName)
-        assertTrue(clientClassName?.contains("HibernateProxy") ?: false)
+        val client = project.client!!
+        LOGGER.info { "Class used for the client reference: ${client::class.java}" }
+        assertTrue(HibernateProxy::class.java.isAssignableFrom(client::class.java))
     }
 
     @Test
-    internal fun equalsTest() {
+    internal fun equalsIssue() {
         val project = projectRepository.findById(1).get()
         assertTrue(project == project.copy())
     }
 
-/*    @Test
-    internal fun checkNegativeIdInsert() {
-        val project = Project().apply {
-            name = "New new project"
+    @Test
+    internal fun hashCodeIsConsistent() {
+        val awesomeProject = Project().apply {
+            name = "Awesome project"
         }
-        val saved = projectRepository.save(project)
-        assertTrue(project.isNew() && !saved.isNew())
-    }*/
+        val hashSet = hashSetOf(awesomeProject)
+        LOGGER.info { awesomeProject.hashCode().toString() }
+
+        projectRepository.save(awesomeProject)
+        LOGGER.info { awesomeProject.hashCode().toString() }
+
+        assertTrue(awesomeProject in hashSet)
+    }
+
+//    @Test
+//    internal fun valForIdTest() {
+//        val project = Project().apply {
+//            //id = 1000L
+//            name = "New project"
+//        }
+//        assertTrue(project.isNew())
+//        projectRepository.save(project)
+//
+//        assertTrue(!project.isNew())
+//    }
 
     @Test
     internal fun lateInitWorks() {
-        val client = clientRepository.findById(1).get()
-        println(client.name)
+        val project = Project().apply {
+            client = Client()
+        }
+        assertTrue(project.client!!.name != null)
     }
 
 }

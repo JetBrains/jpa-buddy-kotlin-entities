@@ -5,32 +5,33 @@ import javax.persistence.*
 
 @Table(name = "project")
 @Entity
-data class Project(
+data class Project (
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    @Id
     var id: Long? = null,
 
     @Column(name = "name", nullable = false)
-    var name: String,
+    var name: String? = null,
 
+    @ManyToOne
     @JoinColumn(name = "client_id")
-    @ManyToOne(fetch = FetchType.LAZY)
     var client: Client? = null
 )
+
 
 interface ProjectRepository : JpaRepository<Project, Long>
 
 @Table(name = "client")
 @Entity
 data class Client(
-    @Column(name = "id", nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     var id: Long? = null,
 
     @Column(name = "name", nullable = false)
-    var name: String,
+    var name: String? = null,
 
     @OneToMany(mappedBy = "client", orphanRemoval = true)
     var projects: MutableSet<Project> = mutableSetOf(),
@@ -39,8 +40,6 @@ data class Client(
     @OneToMany
     var contacts: MutableSet<Contact> = mutableSetOf(),
 )
-
-interface ClientRepository : JpaRepository<Client, Long>
 
 @Table(name = "contact")
 @Entity
