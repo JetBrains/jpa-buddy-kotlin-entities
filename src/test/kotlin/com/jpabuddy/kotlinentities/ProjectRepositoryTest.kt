@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 class ProjectRepositoryTest(
     @Autowired val projectRepository: ProjectRepository,
     @Autowired val clientRepository: ClientRepository,
-//    @Autowired val valuableClientRepository: ValuableClientRepository,
 ) {
 
     @Test
@@ -48,14 +47,5 @@ class ProjectRepositoryTest(
         val client = clientRepository.findById(1).get()
         println(client.name)
     }
-
-//    @Test
-//    internal fun dataclassChild() {
-//        val clients = clientRepository.findAll()
-//        val client = clientRepository.findById(1L).get()
-//        val valuableClient = valuableClientRepository.findById(1L).get()
-//
-//        assertTrue(valuableClient != client)
-//    }
 
 }

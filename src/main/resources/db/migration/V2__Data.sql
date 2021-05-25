@@ -9,8 +9,6 @@ insert into contact values (1, 'John', 1);
 insert into contact values (2, 'Melissa', 1);
 select setval('contact_id_seq', 3);
 
-insert into valuable_client values (1, 'An Even Bigger Client, Inc.', 123456789.12);
-select setval('valuable_client_id_seq', 2);
 
 
 
