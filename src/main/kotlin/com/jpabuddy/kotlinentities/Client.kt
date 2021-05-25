@@ -1,18 +1,32 @@
 package com.jpabuddy.kotlinentities
 
+import java.math.BigDecimal
 import javax.persistence.*
 
 @Table(name = "client")
 @Entity
-open class Client {
+data class Client(
     @Column(name = "id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    open var id: Long? = null
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    var id: Long? = null,
 
     @Column(name = "name", nullable = false)
-    open lateinit var name: String
+    var name: String,
 
     @OneToMany(mappedBy = "client", orphanRemoval = true)
-    open var projects: MutableList<Project>? = mutableListOf()
-}
+    var projects: MutableSet<Project> = mutableSetOf(),
+
+    @JoinColumn(name = "client_id")
+    @OneToMany
+    var contacts: MutableSet<Contact> = mutableSetOf(),
+)
+
+
+/*@Entity
+class ValuableClient(override var id: Long?): Client(id) {
+
+    @Column(name = "turnover", precision = 19, scale = 2)
+    var turnover: BigDecimal? = null
+}*/
+
