@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  db-project:
+    image: postgres:10.5
+    environment:
+      - POSTGRES_USER=projects
+      - POSTGRES_PASSWORD=projects
+    ports:
+      - 5432:5432
+    volumes:
+      - ./src/main/resources/db/migration/V1__Init.sql:/docker-entrypoint-initdb.d/V1__Init.sql
+      - ./src/main/resources/db/migration/V2__Data.sql:/docker-entrypoint-initdb.d/V2__Data.sql

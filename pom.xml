@@ -92,8 +92,8 @@
                 <version>7.9.1</version>
                 <configuration>
                     <url>jdbc:postgresql://localhost:5432/projects</url>
-                    <user>postgres</user>
-                    <password>postgres</password>
+                    <user>projects</user>
+                    <password>projects</password>
                 </configuration>
             </plugin>
         </plugins>
