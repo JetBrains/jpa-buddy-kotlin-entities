@@ -55,22 +55,21 @@ class ProjectRepositoryTest(
         assertTrue(awesomeProject in hashSet)
     }
 
-//    @Test
-//    internal fun valForIdTest() {
-//        val project = Project().apply {
-//            //id = 1000L
-//            name = "New project"
-//        }
-//        assertTrue(project.isNew())
-//        projectRepository.save(project)
-//
-//        assertTrue(!project.isNew())
-//    }
+    @Test
+    internal fun valForIdTest() {
+        val project = Project().apply {
+            name = "New project"
+        }
+        assertTrue(project.isNew())
+        projectRepository.save(project)
+
+        assertTrue(!project.isNew())
+    }
 
     @Test
     internal fun lateInitWorks() {
         val project = Project().apply {
-            client = Client()
+            client = Client("The Best Client")
         }
         assertTrue(project.client!!.name != null)
     }

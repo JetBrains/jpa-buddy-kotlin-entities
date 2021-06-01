@@ -1,58 +1,61 @@
 package com.jpabuddy.kotlinentities
 
+import org.hibernate.annotations.NaturalId
 import org.springframework.data.jpa.repository.JpaRepository
 import javax.persistence.*
 
 @Table(name = "project")
 @Entity
-data class Project (
+data class Project(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Long? = null,
+    val id: Long? = null
+) {
 
     @Column(name = "name", nullable = false)
-    var name: String? = null,
+    lateinit var name: String
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     var client: Client? = null
-)
+
+    fun isNew(): Boolean = id == null
+
+    override fun hashCode(): Int = this.javaClass.hashCode()
+}
 
 
 interface ProjectRepository : JpaRepository<Project, Long>
 
 @Table(name = "client")
 @Entity
-data class Client(
+open class Client(
+    @Column(name = "name", nullable = false)
+    open var name: String,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    var id: Long? = null,
-
-    @Column(name = "name", nullable = false)
-    var name: String? = null,
+    open var id: Long? = null,
 
     @OneToMany(mappedBy = "client", orphanRemoval = true)
-    var projects: MutableSet<Project> = mutableSetOf(),
+    open var projects: MutableSet<Project> = mutableSetOf(),
 
     @JoinColumn(name = "client_id")
     @OneToMany
-    var contacts: MutableSet<Contact> = mutableSetOf(),
+    open var contacts: MutableSet<Contact> = mutableSetOf(),
 )
 
 @Table(name = "contact")
 @Entity
 data class Contact(
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     @Id
-    var id: Long? = null,
-
+    @NaturalId
+    @Column(name = "email", nullable = false)
+    val email: String
+) {
     @Column(name = "name")
-    var name: String? = null,
-
-    @Column(name = "email", nullable = false, unique = true)
-    var email: String? = null
-)
+    var name: String? = null
+}
 
