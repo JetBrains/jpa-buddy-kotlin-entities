@@ -50,6 +50,9 @@ data class Contact(
     var id: Long? = null,
 
     @Column(name = "name")
-    var name: String? = null
+    var name: String? = null,
+
+    @Column(name = "email", nullable = false, unique = true)
+    var email: String? = null
 )
 
