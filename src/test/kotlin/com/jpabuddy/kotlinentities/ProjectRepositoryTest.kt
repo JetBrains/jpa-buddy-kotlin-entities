@@ -15,9 +15,11 @@ import java.util.*
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ProjectRepositoryTest(
     @Autowired val projectRepository: ProjectRepository,
+    @Autowired val clientRepository: ClientRepository,
+    @Autowired val contactRepository: ContactRepository
 ) {
 
-    companion object{
+    companion object {
         private val LOGGER = LoggerFactory.getLogger(ProjectRepositoryTest::class.java)
     }
 
@@ -30,21 +32,23 @@ class ProjectRepositoryTest(
     @Test
     internal fun lazyLoadEnabled() {
         val project = projectRepository.findById(1).get()
-        val client = project.client!!
+        val client = project.client
         LOGGER.info { "Class used for the client reference: ${client::class.java}" }
         assertTrue(HibernateProxy::class.java.isAssignableFrom(client::class.java))
     }
 
     @Test
     internal fun equalsIssue() {
-        val project = projectRepository.findById(1).get()
-        assertTrue(project == project.copy())
+        val contact = contactRepository.findById("john@verybigclient.com").get()
+        assertTrue(contact == contact.copy())
     }
 
     @Test
     internal fun hashCodeIsConsistent() {
+        val awesomeClient = clientRepository.findById(1).get()
         val awesomeProject = Project().apply {
             name = "Awesome project"
+            client = awesomeClient
         }
         val hashSet = hashSetOf(awesomeProject)
         LOGGER.info { awesomeProject.hashCode().toString() }
@@ -57,13 +61,11 @@ class ProjectRepositoryTest(
 
     @Test
     internal fun valForIdTest() {
-        val project = Project().apply {
-            name = "New project"
-        }
-        assertTrue(project.isNew())
-        projectRepository.save(project)
+        val client = Client("New client")
+        assertTrue(client.isNew())
+        clientRepository.save(client)
 
-        assertTrue(!project.isNew())
+        assertTrue(!client.isNew())
     }
 
     @Test
