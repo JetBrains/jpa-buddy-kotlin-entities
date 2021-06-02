@@ -46,6 +46,6 @@ open class Project {
 -  To use data classes 
    * Enable the all-open plugin as it was described above, because this is the only way to make data classes `open` in the compiled bytecode.
    * Override `equals()`, `hashCode()`, `toString()` in accordance with one of this articles by [Vlad Mihalcea](https://vladmihalcea.com/the-best-way-to-implement-equals-hashcode-and-tostring-with-jpa-and-hibernate/) or [Thorben Janssen](https://thorben-janssen.com/ultimate-guide-to-implementing-equals-and-hashcode-with-hibernate/).
-- (JPA Buddy)[https://plugins.jetbrains.com/plugin/15075-jpa-buddy] is aware of all these things and always generate valid entities for you, including extra stuff like `equals()`, `hashCode()`, `toString()`!
+- [JPA Buddy](https://plugins.jetbrains.com/plugin/15075-jpa-buddy) is aware of all these things and always generate valid entities for you, including extra stuff like `equals()`, `hashCode()`, `toString()`!
 
 Find more examples of JPA entities on Kotlin in the [domain.kt](src/main/kotlin/com/jpabuddy/kotlinentities/domain.kt) file. It also includes detailed explanation of the different use cases inlined in the comments. 
