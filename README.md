@@ -1,4 +1,4 @@
-[![JetBrains team project](https://jb.gg/badges/team.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+[![JetBrains incubator project](https://jb.gg/badges/incubator-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub) 
 
 # JPA Entities in Kotlin
 This repository was originally used in the "[Getting the Most from JPA with Kotlin](https://www.youtube.com/watch?v=a_6V8xwiv04)" webinar.
